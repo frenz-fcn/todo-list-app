@@ -3,7 +3,7 @@ import { Switch } from "@headlessui/react";
 import Context from "../context";
 import { Dialog, Transition } from "@headlessui/react";
 
-export default function ListItem({ todo }) {
+export default function Todo({ todo }) {
   const { dispatch } = useContext(Context);
 
   const [enabled, setEnabled] = useState(false);
@@ -12,6 +12,7 @@ export default function ListItem({ todo }) {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef();
   const [showAlert, setShowAlert] = useState(false);
+  const [status, setStatus] = useState("");
 
   function closeModal() {
     setOpen(false);
@@ -28,6 +29,7 @@ export default function ListItem({ todo }) {
         type: "UPDATE_TODO",
         title: title,
         description: description,
+        status: status,
       });
       setTitle("");
       setDescription("");
@@ -59,8 +61,8 @@ export default function ListItem({ todo }) {
   return (
     <>
       <tr>
-        <td className="px-6 py-4 font-medium text-center">{todo.title}</td>
-        <td className="px-6 py-4 text-left">{todo.description}</td>
+        <td className="px-6 py-4 font-medium text-center break-normal md:break-all">{todo.title}</td>
+        <td className="px-6 py-4 text-left break-normal md:break-all">{todo.description}</td>
         <td className="px-6 py-4 text-center">
           <Switch
             checked={enabled}
@@ -87,6 +89,7 @@ export default function ListItem({ todo }) {
                 dispatch({ type: "SET_CURRENT_TODO", payload: todo });
                 setTitle(todo.title);
                 setDescription(todo.description);
+                setStatus(todo.status);
                 openModal();
               }}
             >
@@ -130,7 +133,7 @@ export default function ListItem({ todo }) {
         </td>
 
         {showAlert && (
-          <div className="text-white py-4 border-0 rounded relative mb-4 bg-red-500">
+          <div className="text-white py-4 border-0 rounded relative mb-4 bg-red-500 text-center">
             <span className="text-xl inline-block align-middle">
               <i className="fas fa-bell" />
             </span>
@@ -142,7 +145,7 @@ export default function ListItem({ todo }) {
               <button
                 class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-l"
                 onClick={() => {
-                  dispatch({ type: "DELETE_TODO", payload: todo.title });
+                  dispatch({ type: "DELETE_TODO", payload: todo.id });
                   setShowAlert(false);
                 }}
               >

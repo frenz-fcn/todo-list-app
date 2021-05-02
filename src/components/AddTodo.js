@@ -1,13 +1,8 @@
-import React, {
-  Fragment,
-  useState,
-  useContext,
-  useRef, 
-} from "react";
+import React, { Fragment, useState, useContext, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Context from "../context";
 
-export default function AddNote() {  
+export default function AddTodo() {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef();
   const [title, setTitle] = useState("");
@@ -28,7 +23,12 @@ export default function AddNote() {
     if (title.length === 0) {
       alert("Title should not be empty.");
     } else {
-      dispatch({ type: "ADD_TODO", title: title, description: description, status: 'Pending' });
+      dispatch({
+        type: "ADD_TODO",
+        title: title,
+        description: description,
+        status: "Pending",
+      });
       setTitle("");
       setDescription("");
       closeModal();
@@ -36,7 +36,7 @@ export default function AddNote() {
   }
 
   return (
-    <div>
+    <div className="md:container md:mx-auto">
       <button
         onClick={openModal}
         className="w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"

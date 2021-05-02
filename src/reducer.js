@@ -1,9 +1,13 @@
+import { nanoid } from "nanoid";
+
 export default function reducer(state, action) {
   switch (action.type) {
     case "ADD_TODO":
       const newTodo = {
+        id: nanoid(2),
         title: action.title,
         description: action.description,
+        status: action.status,
       };
 
       const addedTodo = [...state.todos, newTodo];
@@ -11,15 +15,17 @@ export default function reducer(state, action) {
       return {
         ...state,
         todos: addedTodo,
+        currentTodos: addedTodo,
       };
     case "DELETE_TODO":
       const deletedTodos = state.todos.filter(
-        (todo) => todo.title !== action.payload
+        (todo) => todo.id !== action.payload
       );
 
       return {
         ...state,
         todos: deletedTodos,
+        currentTodos: deletedTodos,
       };
     case "SET_CURRENT_TODO":
       return {
@@ -35,7 +41,7 @@ export default function reducer(state, action) {
       };
 
       const findTodoIndex = state.todos.findIndex(
-        (todo) => todo.title === state.currentTodo.title
+        (todo) => todo.id === state.currentTodo.id
       );
 
       const updatedTodos = [
@@ -47,6 +53,7 @@ export default function reducer(state, action) {
       return {
         currentTodo: null,
         todos: updatedTodos,
+        currentTodos: updatedTodos,
       };
     case "SORT_ASC_TODO":
       const sortedAsc = state.todos.sort((a, b) => {

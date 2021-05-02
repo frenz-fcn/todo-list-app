@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Todo from "./Note";
 import Context from "../context";
 
-export default function List() {
+export default function TodoList() {
   const { state, dispatch } = useContext(Context);
+  const [todos, setTodos] = useState(state.todos);
   const [sortAsc, setSortAsc] = useState(true);
   const [sortAscStatus, setSortAscStatus] = useState(true);
+  const [search, setSearch] = useState("");
 
   function sortTodo(column) {
     if (column === "Title") {
@@ -39,8 +41,39 @@ export default function List() {
     }
   }
 
+  function handleSearchTodo() {
+    setTodos(
+      state.todos.filter((todo) => {
+        if (
+          todo.title.toLowerCase().includes(search.toLowerCase()) ||
+          todo.title.toUpperCase().includes(search.toUpperCase())
+        ) {
+          return todo;
+        }
+      })
+    );
+  }
+
+  useEffect(() => {
+    const timeOut = setTimeout(() => handleSearchTodo(), 100);
+
+    return () => clearTimeout(timeOut);
+  }, [search]);
+
+  useEffect(() => {
+    
+    setTodos(state.todos);
+  });
+
   return (
-    <div class="md:container md:mx-auto">
+    <div className="md:container md:mx-auto">
+      <input
+        className="shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="search-todo"
+        type="text"
+        placeholder="Search todo here..."
+        onChange={(event) => setSearch(event.target.value)}
+      />
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -141,7 +174,7 @@ export default function List() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {state.todos.map((todo) => {
+                  {todos.map((todo) => {
                     return <Todo todo={todo} />;
                   })}
                 </tbody>
