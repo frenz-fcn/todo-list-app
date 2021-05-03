@@ -3,7 +3,7 @@ import { Switch } from "@headlessui/react";
 import Context from "../context";
 import { Dialog, Transition } from "@headlessui/react";
 
-export default function Todo({ todo }) {
+export default function Todo({ todo }) { 
   const { dispatch } = useContext(Context);
 
   const [enabled, setEnabled] = useState(false);
@@ -61,8 +61,12 @@ export default function Todo({ todo }) {
   return (
     <>
       <tr>
-        <td className="px-6 py-4 font-medium text-center break-normal md:break-all">{todo.title}</td>
-        <td className="px-6 py-4 text-left break-normal md:break-all">{todo.description}</td>
+        <td className="px-6 py-4 font-medium text-center break-normal md:break-all">
+          {todo.title}
+        </td>
+        <td className="px-6 py-4 text-left break-normal md:break-all">
+          {todo.description}
+        </td>
         <td className="px-6 py-4 text-center">
           <Switch
             checked={enabled}

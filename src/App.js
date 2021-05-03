@@ -9,7 +9,7 @@ import Reducer from "./reducer";
 function App() {
   const initialState = useContext(Context);
   const [state, dispatch] = useReducer(Reducer, initialState);
-  console.log(state);
+  
   return (
     <Context.Provider value={{ state, dispatch }}>
       <AddTodo />

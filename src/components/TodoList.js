@@ -52,21 +52,23 @@ export default function TodoList() {
         }
       })
     );
+
+    return todos.map((todo) => {
+      <Todo todo={todo} />;
+    });
   }
 
   useEffect(() => {
     const timeOut = setTimeout(() => handleSearchTodo(), 100);
-
     return () => clearTimeout(timeOut);
   }, [search]);
 
   useEffect(() => {
-    
     setTodos(state.todos);
-  });
+  }, [state.todos]);
 
   return (
-    <div className="md:container md:mx-auto">
+    <div className="md:mx-auto">
       <input
         className="shadow appearance-none w-full border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="search-todo"
